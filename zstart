@@ -1,0 +1,4 @@
+CLASSPATH=/home/data/z390/z390
+export CLASSPATH
+#
+java -classpath CLASSPATH -jar z390.jar $1 $2 $3 
