@@ -297,6 +297,7 @@ public  class  z390 extends JApplet
         JMenu edit_menu = null;            
         JMenu option_menu = null;          
         JMenu view_menu = null;            
+        JMenu tool_menu = null;            
         JMenu help_menu = null;             
         JMenuItem file_menu_cd = null;         
         JMenuItem file_menu_edit = null;       
@@ -331,6 +332,7 @@ public  class  z390 extends JApplet
         JCheckBoxMenuItem option_menu_trace = null;             
         JCheckBoxMenuItem view_menu_status = null;              
         JCheckBoxMenuItem view_menu_cmd = null;              
+        JMenuItem tool_menu_cic   = null;      
         JMenuItem help_menu_help = null;            
         JMenuItem help_menu_commands = null;        
         JMenuItem help_menu_guide = null;           
@@ -368,6 +370,7 @@ public  class  z390 extends JApplet
            String job_opt = "";
            String link_opt = "";
            String exec_opt = "";
+           String cic_opt = "";
      /*
       * web site and install location
       */
@@ -1357,6 +1360,7 @@ public  class  z390 extends JApplet
    	          option_menu_trace.setFont(new Font(tz390.z390_font,Font.BOLD,font_size));     
    	          view_menu_status.setFont(new Font(tz390.z390_font,Font.BOLD,font_size));      
    	          view_menu_cmd.setFont(new Font(tz390.z390_font,Font.BOLD,font_size));         
+   	          tool_menu_cic.setFont(new Font(tz390.z390_font,Font.BOLD,font_size));  
    	          help_menu_help.setFont(new Font(tz390.z390_font,Font.BOLD,font_size));       
    	          help_menu_commands.setFont(new Font(tz390.z390_font,Font.BOLD,font_size));   
    	          help_menu_guide.setFont(new Font(tz390.z390_font,Font.BOLD,font_size));      
@@ -1431,6 +1435,9 @@ public  class  z390 extends JApplet
 	   	put_log("  ASM   - assemble MLC to relocatable OBJ file");
 	   	put_log("  ASML  - assemble and link MLC to 390 load module file");
 	   	put_log("  ASMLG - assemble, link, and execule 390 load module file");
+	   	put_log("  COB   - COBOL Compile");
+	   	put_log("  COBL  - COBOL Compile & Link");
+	   	put_log("  COBLG - COBOL Compile , Link & Execute");
 	   	put_log("  JOB   - execute selected batch job");
 	   	put_log("  LINK  - link OBJ files into 390 load module file");
 	   	put_log("  EXEC  - execute 390 load module file");
@@ -1788,6 +1795,7 @@ public  class  z390 extends JApplet
             menuBar.add(edit_menu);
             menuBar.add(option_menu);
             menuBar.add(view_menu);
+            menuBar.add(tool_menu);
             menuBar.add(help_menu);
             main_frame.setJMenuBar(menuBar);
     	    main_panel.add(log_view);
@@ -1874,6 +1882,7 @@ public  class  z390 extends JApplet
      edit_menu = new JMenu("Edit");
      option_menu = new JMenu("Options");
      view_menu = new JMenu("View");
+     tool_menu = new JMenu("Tools");
      help_menu = new JMenu("Help");
      file_menu_cd     = new JMenuItem("CD..");
      file_menu_edit   = new JMenuItem("EDIT..");
@@ -1914,6 +1923,7 @@ public  class  z390 extends JApplet
      view_menu_status = new JCheckBoxMenuItem("Status");
      view_menu_status.setSelected(true);
      view_menu_cmd    = new JCheckBoxMenuItem("CMD Mode");
+     tool_menu_cic    = new JMenuItem("CIC..");
      help_menu_help       = new JMenuItem("Help");
      help_menu_commands   = new JMenuItem("Commands");
      help_menu_guide      = new JMenuItem("Guide");
@@ -1961,6 +1971,7 @@ public  class  z390 extends JApplet
      option_menu_test.setMnemonic(KeyEvent.VK_T);
      view_menu_status.setMnemonic(KeyEvent.VK_S);
      view_menu_cmd.setMnemonic(KeyEvent.VK_C);
+     tool_menu_cic.setMnemonic(KeyEvent.VK_Z);
      help_menu_help.setMnemonic(KeyEvent.VK_H);
      help_menu_commands.setMnemonic(KeyEvent.VK_C);
      help_menu_guide.setMnemonic(KeyEvent.VK_G);
@@ -1990,6 +2001,7 @@ public  class  z390 extends JApplet
      edit_menu_editor.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N,ActionEvent.CTRL_MASK));
      view_menu_status.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,ActionEvent.CTRL_MASK+ActionEvent.SHIFT_MASK));
      view_menu_cmd.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C,ActionEvent.CTRL_MASK+ActionEvent.SHIFT_MASK));
+     tool_menu_cic.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z,ActionEvent.CTRL_MASK));
      help_menu_help.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H,ActionEvent.CTRL_MASK+ActionEvent.ALT_MASK));
      help_menu_commands.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C,ActionEvent.CTRL_MASK+ActionEvent.ALT_MASK));
      help_menu_guide.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G,ActionEvent.CTRL_MASK+ActionEvent.ALT_MASK));
@@ -2033,6 +2045,7 @@ public  class  z390 extends JApplet
      option_menu_test.addActionListener(this);
      view_menu_status.addActionListener(this);
      view_menu_cmd.addActionListener(this);
+     tool_menu_cic.addActionListener(this);
      help_menu_help.addActionListener(this);
      help_menu_commands.addActionListener(this);
      help_menu_guide.addActionListener(this);
@@ -2073,6 +2086,7 @@ public  class  z390 extends JApplet
      option_menu.add(option_menu_test);
      view_menu.add(view_menu_status);
      view_menu.add(view_menu_cmd);
+     tool_menu.add(tool_menu_cic);
      help_menu.add(help_menu_help);
      help_menu.add(help_menu_commands);
      help_menu.add(help_menu_guide);
@@ -2120,6 +2134,7 @@ public  class  z390 extends JApplet
 	     option_menu_test.setToolTipText(text_font_pfx + "TEST prompt for interactive debug commands" + text_font_sfx);
 	     view_menu_status.setToolTipText(text_font_pfx + "Status line view or hide to save space" + text_font_sfx);
 	     view_menu_cmd.setToolTipText(text_font_pfx + "Windows batch command input Mode" + text_font_sfx);
+	     tool_menu_cic.setToolTipText(text_font_pfx + "CICS compile" + text_font_sfx);
 	     help_menu_help.setToolTipText(text_font_pfx + "Display summary of basic commands" + text_font_sfx);
 	     help_menu_commands.setToolTipText(text_font_pfx + "Display alphabetical list of all commands" + text_font_sfx);
 	     help_menu_guide.setToolTipText(text_font_pfx + "Link to online or local docs (if installed)" + text_font_sfx);
@@ -2215,6 +2230,10 @@ public  class  z390 extends JApplet
  	    }
  	    if (event_name.equals("COBLG..")){
                 batch_cmd("COBLG","","CBL",coblg_opt);
+                break;
+ 	    }
+ 	    if (event_name.equals("CIC..")){
+                batch_cmd("CIC","","CIC",cic_opt);
                 break;
  	    }
    		if (event_name.equals("CD..")){
@@ -2931,6 +2950,7 @@ public  class  z390 extends JApplet
 	    	job_opt = "";
 	    	link_opt = "";
 	    	exec_opt = "";
+	    	cic_opt = "";
 	    	if (option_menu_ascii.isSelected()){  // do last to override trace setting NOCON
 	    		mac_opt   = mac_opt   + " ASCII";
 	    		asm_opt   = asm_opt   + " ASCII";

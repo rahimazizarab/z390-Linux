@@ -1,4 +1,9 @@
 CLASSPATH=/home/data/z390/z390
 export CLASSPATH
 #
-java -classpath CLASSPATH -jar z390.jar $1 $2 $3 
+if  [  -e  z390.jar  ];  then
+    java -classpath CLASSPATH -jar z390.jar $1 $2 $3 
+fi
+
+
+#java -classpath CLASSPATH -jar z390.jar $1 $2 $3 
